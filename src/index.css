@@ -1,0 +1,788 @@
+/* ============================================================
+   SnapFrame — Global Design System
+   Single source of truth for color tokens, typography, and
+   shared components (pills, buttons, panels). Every screen
+   imports this file so the whole app shares one visual language.
+   ============================================================ */
+
+:root {
+  /* --- Color tokens (Section 6.3 of PRD) --- */
+  --sf-bg: #dd8391; /* single reddish-pink background, used on every screen */
+  --sf-bg-deep: #cf6f7f; /* slightly deeper shade for subtle depth on the same hue */
+  --sf-primary: #c8395e;
+  --sf-primary-hover: #b52e51;
+  --sf-primary-soft: #d1477a;
+  --sf-surface: #fdf3ec;
+  --sf-surface-dim: #f6e5da;
+  --sf-accent: #c8395e;
+  --sf-text: #341924;
+  --sf-text-muted: #6b3f4c;
+  --sf-outline: #f3d9de;
+  --sf-danger: #8c2f3a;
+
+  --sf-font-display: "Baloo 2", "Segoe UI Rounded", "Nunito", sans-serif;
+  --sf-font-body: "Nunito", "Segoe UI", sans-serif;
+
+  --sf-radius-pill: 999px;
+  --sf-radius-card: 22px;
+
+  /* Illustration card — single shared size, reused on Landing + Settings
+     so both screens are pixel-identical in that region. */
+  --sf-illustration-card-w: min(480px, 42vw);
+  --sf-illustration-card-h: min(560px, 68vh);
+  --sf-illustration-card-pad: 28px;
+  --sf-shadow-soft: 0 10px 24px rgba(52, 22, 33, 0.18);
+  --sf-shadow-strong: 0 18px 40px rgba(52, 22, 33, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sf-font-body);
+  color: var(--sf-text);
+  /* Hard requirement: one flat reddish-pink background, no gradients. */
+  background-color: var(--sf-bg);
+}
+
+.sf-app {
+  min-height: 100vh;
+  background-color: var(--sf-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Screen transitions ---------- */
+/* Forward nav (Start/Next/Start Session): outgoing slides left, incoming
+   slides in from the right. Backward nav (Back/Retake/Reset): mirrored. */
+
+.sf-transition {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sf-transition-exit-forward {
+  animation: sf-exit-to-left 0.16s ease-in-out forwards;
+}
+
+.sf-transition-enter-forward {
+  animation: sf-enter-from-right 0.2s ease-in-out forwards;
+}
+
+.sf-transition-exit-backward {
+  animation: sf-exit-to-right 0.16s ease-in-out forwards;
+}
+
+.sf-transition-enter-backward {
+  animation: sf-enter-from-left 0.2s ease-in-out forwards;
+}
+
+@keyframes sf-exit-to-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+@keyframes sf-enter-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sf-exit-to-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes sf-enter-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--sf-font-display);
+  color: var(--sf-primary);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Pills ---------- */
+
+.sf-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sf-pill {
+  appearance: none;
+  border: 2px solid var(--sf-primary);
+  background: var(--sf-surface);
+  color: var(--sf-primary);
+  font-family: var(--sf-font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  padding: 10px 22px;
+  border-radius: var(--sf-radius-pill);
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sf-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sf-shadow-soft);
+}
+
+.sf-pill:active {
+  transform: translateY(0);
+}
+
+.sf-pill.is-selected {
+  background: var(--sf-accent);
+  border-color: var(--sf-accent);
+  color: #fff;
+}
+
+.sf-pill:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---------- Primary / secondary buttons ---------- */
+
+.sf-btn {
+  appearance: none;
+  border: none;
+  border-radius: var(--sf-radius-pill);
+  font-family: var(--sf-font-display);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 16px 36px;
+  font-size: 1.05rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+  text-transform: uppercase;
+}
+
+.sf-btn-primary {
+  background: var(--sf-primary);
+  color: #fff;
+  box-shadow: var(--sf-shadow-soft);
+}
+
+.sf-btn-primary:hover:not(:disabled) {
+  background: var(--sf-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sf-shadow-strong);
+}
+
+.sf-btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.sf-btn-outline {
+  background: transparent;
+  color: var(--sf-surface);
+  border: 2px solid var(--sf-surface);
+}
+
+.sf-btn-outline:hover {
+  background: rgba(253, 243, 236, 0.15);
+  transform: translateY(-2px);
+}
+
+.sf-btn-card {
+  background: var(--sf-surface);
+  color: var(--sf-primary);
+  box-shadow: var(--sf-shadow-soft);
+  text-transform: none;
+  font-size: 1rem;
+  padding: 14px 30px;
+  width: 100%;
+}
+
+.sf-btn-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sf-shadow-strong);
+}
+
+/* ---------- Layout helpers ---------- */
+
+.sf-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  padding: clamp(20px, 3vw, 40px);
+}
+
+.sf-panel {
+  background: var(--sf-surface);
+  border-radius: var(--sf-radius-card);
+  box-shadow: var(--sf-shadow-soft);
+}
+
+.sf-footer-credit {
+  position: fixed;
+  right: 18px;
+  bottom: 14px;
+  font-size: 0.8rem;
+  color: rgba(253, 243, 236, 0.75);
+}
+
+.sf-error-banner {
+  background: var(--sf-surface);
+  border: 2px solid var(--sf-danger);
+  color: var(--sf-danger);
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-weight: 600;
+}
+
+.sf-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Landing & Settings shared two-column layout ---------- */
+
+.sf-landing-grid,
+.sf-settings-grid {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* Left column: content is centered as a block (text, pills, buttons all
+   centered horizontally within the column), not stuck to the page edge. */
+.sf-landing-left,
+.sf-settings-form {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 420px;
+}
+
+.sf-settings-form {
+  margin-left: 155px;
+  margin-bottom: 115px;
+}
+
+
+/* Slightly larger Timer/Shots pills and Next button on Settings. */
+.sf-settings-form .sf-pill {
+  padding: 17px 29px;
+  font-size: 1.02rem;
+}
+
+.sf-settings-form .sf-btn {
+  padding: 30px 43px;
+  font-size: 1.12rem;
+}
+
+.sf-landing-sub {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--sf-text);
+  font-weight: 600;
+  text-align: center;
+}
+
+.sf-landing-left .sf-btn {
+  align-self: center;
+}
+
+/* Center each Timer/Shots section (label + pill row) as a block. */
+.sf-settings-form section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sf-settings-form .sf-pill-group {
+  justify-content: center;
+}
+
+/* Right column: white/cream card at one fixed shared size, pushed toward
+   the right edge of the screen with a clear margin from it. */
+.sf-illustration-card {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: 99px;
+  margin-right: 40px;
+  width: var(--sf-illustration-card-w);
+  height: var(--sf-illustration-card-h);
+  background: var(--sf-surface);
+  border-radius: var(--sf-radius-card);
+  box-shadow: var(--sf-shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sf-illustration-card-pad);
+}
+
+/* Only affects the card on the Settings screen */
+.sf-settings .sf-illustration-card {
+  margin-top: 32px;
+}
+
+
+/* Artwork fills ~85% of the card in both axes — the dominant visual,
+   not a small image floating in a blank card. */
+.sf-illustration-card .sf-illustration-img {
+  width: 85%;
+  height: 85%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .sf-landing-grid,
+  .sf-settings-grid {
+    flex-direction: column;
+    gap: 30px;
+    align-items: stretch;
+  }
+
+  .sf-landing-left,
+  .sf-settings-form {
+    flex: none;
+    width: 100%;
+  }
+
+  .sf-illustration-card {
+    width: 100%;
+    max-width: 420px;
+    height: 320px;
+    align-self: stretch;
+    padding: 20px;
+  }
+}
+/* ---------- Capture screen ---------- */
+
+.sf-capture {
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+
+.sf-capture-heading {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  margin-bottom: 6px;
+}
+
+.sf-capture-preview-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sf-capture-preview {
+  position: relative;
+  width: min(720px, 100%);
+  aspect-ratio: 16 / 10;
+  background: #1c1a1d;
+  border: 6px solid var(--sf-primary);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sf-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* mirror for a natural selfie preview */
+}
+
+.sf-countdown {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sf-font-display);
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.sf-camera-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px;
+}
+
+.sf-capture-meta {
+  width: min(720px, 100%);
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--sf-text);
+}
+
+/* ---------- Customize screen ---------- */
+
+.sf-customize-grid {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(30px, 6vw, 90px);
+  flex-wrap: wrap;
+}
+
+.sf-strip-preview {
+  width: 220px;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: var(--sf-shadow-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.sf-strip-photo {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 3px solid;
+  transition: border-color 0.2s ease;
+}
+
+.sf-strip-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.2s ease;
+}
+
+.sf-strip-motif {
+  text-align: center;
+  font-size: 1.4rem;
+  padding-top: 2px;
+}
+
+.sf-customize-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 420px;
+}
+
+.sf-selector-title {
+  text-align: center;
+  color: var(--sf-primary);
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+}
+
+.sf-customize-controls .sf-pill-group {
+  justify-content: center;
+}
+
+.sf-customize-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.sf-customize-actions .sf-btn {
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
+}
+
+/* ---------- Pickup screen ---------- */
+
+.sf-pickup-grid {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(30px, 8vw, 120px);
+  flex-wrap: wrap;
+}
+
+/* ---------- Print slot (dispenser) ---------- */
+
+.sf-slot-wrap {
+  position: relative;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tall rounded slot card in SnapFrame's primary pink (reskinned from the
+   reference's blue), housing the label + chevron at its top ~20-25%. */
+.sf-slot-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 150px;
+  background: var(--sf-primary);
+  border-radius: 26px;
+  color: var(--sf-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 18px;
+  box-shadow: var(--sf-shadow-strong);
+}
+
+.sf-slot-label {
+  font-family: var(--sf-font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.sf-slot-chevron {
+  width: 22px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* Clipping mask that reveals the strip top-to-bottom as it "prints" —
+   the strip is tucked behind the slot card's lower edge and grows out
+   from underneath it, rather than being visible in full and translating. */
+.sf-slot-strip-clip {
+  position: relative;
+  z-index: 1;
+  margin-top: -30px; /* tuck the strip's top behind the slot card */
+  overflow: hidden;
+  border-radius: 0 0 10px 10px;
+  transition: height 2.8s cubic-bezier(0.35, 0, 0.15, 1);
+}
+
+.sf-slot-strip-img {
+  display: block;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 14px 26px rgba(20, 8, 14, 0.32);
+}
+
+/* Slow stepped "jitter" while printing, so the feed reads as mechanical
+   rather than a single smooth slide. */
+.sf-slot-strip-img.is-jittering {
+  animation: sf-print-jitter 0.32s steps(2, end) infinite;
+}
+
+.sf-slot-strip-img.is-settling {
+  animation: sf-print-settle 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes sf-print-jitter {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(1.5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sf-print-settle {
+  0% {
+    transform: translateY(0);
+  }
+  55% {
+    transform: translateY(6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Faint scan-line/shimmer sweeping down the visible part of the strip
+   while it emerges, reinforcing the "being processed" feel. */
+.sf-slot-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22px;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.55) 50%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.sf-pickup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 220px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.sf-pickup-actions.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sf-settings-title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin-bottom: 12px;
+  color: var(--sf-text);
+}
+
+.sf-section-label {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: var(--sf-text);
+}
+
+.sf-settings-form .sf-btn {
+  padding: 23px 100px;
+  
+}
+
+/* (illustration sizing now handled by .sf-illustration-card rule above) */
+
+/* ---------- Brand mark (Logo v2) ---------- */
+
+.sf-logo-img {
+  display: block;
+  height: auto;
+}
+
+.sf-logo-sm {
+  width: clamp(140px, 20vw, 200px);
+}
+
+.sf-logo-lg {
+  width: clamp(200px, 30vw, 320px);
+}
+
+/* ---------- Top bar / Back button ---------- */
+
+.sf-topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 48px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.sf-topbar .sf-logo-img {
+  width: 160px;
+}
+
+.sf-back-btn {
+  appearance: none;
+  border: 2px solid var(--sf-surface);
+  background: var(--sf-primary);
+  color: var(--sf-surface);
+  border-radius: var(--sf-radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px 8px 12px;
+  font-family: var(--sf-font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: var(--sf-shadow-soft);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.sf-back-btn:hover {
+  background: var(--sf-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--sf-shadow-strong);
+}
+
+.sf-back-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .sf-back-btn-label {
+    display: none;
+  }
+
+  .sf-back-btn {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .sf-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

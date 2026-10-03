@@ -7,8 +7,8 @@ export function PhotoBoothArtwork() {
   return (
     <div className="sf-illustration-card">
       <img
-        src="/photo.png"
-        alt="Photobooth illustration"
+        src="/snap-cat.gif"
+        alt="Animated cat taking a photo"
         className="sf-illustration-img"
         role="img"
       />

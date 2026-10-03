@@ -1,3 +1,4 @@
+import { CatPhotoBoothScene } from '../components/CatPhotoBoothScene';
 import { Logo } from '../components/Logo';
 import { PhotoBoothArtwork } from '../components/PhotoBoothArtwork';
 
@@ -25,6 +26,7 @@ export function Landing({ onStart }: LandingProps) {
         </div>
         <PhotoBoothArtwork />
       </div>
+      <CatPhotoBoothScene />
     </div>
   );
 }

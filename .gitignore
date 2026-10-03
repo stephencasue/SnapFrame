@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 logo and photo/
+
+# Raw Freepik sticker source files (AI/EPS/atlas sheets) — app uses public/stickers/*
+/stickers/

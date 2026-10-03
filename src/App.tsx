@@ -121,6 +121,11 @@ export default function App() {
           />
         )}
       </div>
+
+      <p className="sf-made-by" aria-label="Made by Stephen">
+        <span>made by</span>
+        <strong>Stephen</strong>
+      </p>
     </div>
   );
 }

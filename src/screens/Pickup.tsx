@@ -192,8 +192,6 @@ export function Pickup({ photos, strip, filter, onEdit, onReset, onBack }: Picku
           </button>
         </div>
       </div>
-
-      <p className="sf-footer-credit">Developed by Stephen</p>
     </div>
   );
 }

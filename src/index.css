@@ -334,10 +334,11 @@ button {
 }
 
 .sf-landing-sub {
+  font-family: var(--sf-font-display);
   font-size: 1.2rem;
   line-height: 1.6;
   color: var(--sf-text);
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
 }
 
@@ -2227,7 +2228,7 @@ button {
 .sf-cat-head-fill,
 .sf-cat-leg,
 .sf-cat-paw-fill {
-  fill: #f3c8d6;
+  fill: #ffffff;
   stroke: #8c2f3a;
   stroke-width: 6;
   stroke-linecap: round;
@@ -2638,6 +2639,7 @@ button {
     max-width: none;
     margin: 0 0 0 9vw;
     align-self: center;
+    transform: translateY(-60px);
   }
 
   /* Pinned to the same viewport coordinates the Landing grid resolves to,
@@ -2657,5 +2659,54 @@ button {
   .sf-settings .sf-settings-form {
     width: clamp(260px, 24vw, 360px);
     margin-left: 6vw;
+  }
+}
+
+/* Global creator signature — lives outside screen transitions in App.tsx so
+   it remains in the lower-right corner on every step. */
+.sf-made-by {
+  position: fixed;
+  z-index: 100;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--sf-font-display);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 2px 3px rgba(52, 22, 33, 0.18));
+}
+
+.sf-made-by span {
+  color: rgba(253, 243, 236, 0.78);
+  font-size: clamp(0.52rem, 0.65vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sf-made-by strong {
+  color: var(--sf-surface);
+  font-size: clamp(1rem, 1.35vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: 0.015em;
+}
+
+@media (max-width: 560px) {
+  .sf-made-by {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(10px, env(safe-area-inset-bottom));
+    gap: 4px;
+  }
+
+  .sf-made-by span {
+    font-size: 0.48rem;
+  }
+
+  .sf-made-by strong {
+    font-size: 0.92rem;
   }
 }

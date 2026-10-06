@@ -2816,3 +2816,24 @@ button {
     transition: none;
   }
 }
+
+/* On phones/tablets, place the global controls in a reserved footer below
+   each screen instead of fixing them over the live landing illustration. */
+@media (max-width: 900px) {
+  .sf-app {
+    position: relative;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  }
+
+  .sf-made-by {
+    position: absolute;
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
+  }
+
+  .sf-pwa-install-wrap {
+    position: absolute;
+    left: max(14px, env(safe-area-inset-left));
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+}

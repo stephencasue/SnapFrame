@@ -2710,3 +2710,109 @@ button {
     font-size: 0.92rem;
   }
 }
+
+/* ---------- Mobile/tablet PWA installation ---------- */
+
+.sf-pwa-install-wrap {
+  position: fixed;
+  z-index: 110;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sf-pwa-install {
+  appearance: none;
+  min-height: 44px;
+  padding: 9px 15px 9px 12px;
+  border: 2px solid rgba(253, 243, 236, 0.88);
+  border-radius: var(--sf-radius-pill);
+  background: var(--sf-primary);
+  color: var(--sf-surface);
+  box-shadow: var(--sf-shadow-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sf-font-display);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sf-pwa-install:hover {
+  background: var(--sf-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--sf-shadow-strong);
+}
+
+.sf-pwa-install:active {
+  transform: translateY(0);
+}
+
+.sf-pwa-install:focus-visible {
+  outline: 3px solid var(--sf-surface);
+  outline-offset: 2px;
+}
+
+.sf-pwa-install svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sf-pwa-ios-help {
+  width: min(270px, calc(100vw - 28px));
+  padding: 11px 14px;
+  border: 2px solid var(--sf-outline);
+  border-radius: 15px;
+  background: var(--sf-surface);
+  color: var(--sf-text);
+  box-shadow: var(--sf-shadow-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sf-pwa-ios-help strong {
+  color: var(--sf-primary);
+}
+
+/* Defense in depth: touchscreen phones/tablets use a coarse pointer. This
+   prevents the control from appearing on regular mouse-driven computers even
+   if a browser exposes a misleading mobile user agent. */
+@media (hover: hover) and (pointer: fine) {
+  .sf-pwa-install-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .sf-pwa-install {
+    width: 44px;
+    padding: 10px;
+    justify-content: center;
+  }
+
+  .sf-pwa-install span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sf-pwa-install {
+    transition: none;
+  }
+}

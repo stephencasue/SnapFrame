@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { PwaInstallButton } from './components/PwaInstallButton';
 import { Landing } from './screens/Landing';
 import { Settings } from './screens/Settings';
 import { Capture } from './screens/Capture';
@@ -121,6 +122,8 @@ export default function App() {
           />
         )}
       </div>
+
+      <PwaInstallButton />
 
       <p className="sf-made-by" aria-label="Made by Stephen">
         <span>made by</span>
